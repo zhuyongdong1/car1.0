@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../providers/car_provider.dart';
 import '../config/app_config.dart';
 import '../services/ocr_service.dart';
+import '../services/api_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -181,6 +182,21 @@ class _HomePageState extends State<HomePage> {
                   },
                   icon: const Icon(Icons.camera_alt, size: 20),
                   label: const Text('文字识别'),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: _exportCars,
+                  icon: const Icon(Icons.download, size: 20),
+                  label: const Text('导出车辆'),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 12),
                   ),
@@ -400,6 +416,7 @@ class _HomePageState extends State<HomePage> {
         break;
       case OCRType.general:
         final fullText = result['fullText'] as String?;
+
         if (fullText != null && fullText.isNotEmpty) {
           _searchController.text = fullText;
           _showToast('文字识别完成');
@@ -407,6 +424,15 @@ class _HomePageState extends State<HomePage> {
         break;
     }
   }
+  Future<void> _exportCars() async {
+    try {
+      await ApiService.exportCars();
+      _showToast("导出成功");
+    } catch (e) {
+      _showToast("导出失败");
+    }
+  }
+
 
   void _showToast(String message) {
     ScaffoldMessenger.of(context).showSnackBar(

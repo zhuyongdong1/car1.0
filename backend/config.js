@@ -89,5 +89,8 @@ module.exports = {
   rateLimit: {
     windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15分钟
     max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 100 // 最多100个请求
-  }
-}; 
+  },
+
+  // JWT密钥
+  jwtSecret: process.env.JWT_SECRET || 'change_this_secret'
+};

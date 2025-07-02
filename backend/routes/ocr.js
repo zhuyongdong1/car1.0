@@ -6,8 +6,10 @@ const { v4: uuidv4 } = require('uuid');
 const Joi = require('joi');
 const ocrService = require('../services/ocr-service');
 const config = require('../config');
+const auth = require('../middleware/auth');
 
 const router = express.Router();
+router.use(auth);
 
 // 确保上传目录存在
 const uploadDir = config.upload?.uploadDir || './uploads';

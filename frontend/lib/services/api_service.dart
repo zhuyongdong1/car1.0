@@ -249,6 +249,25 @@ class ApiService {
     return WashLog.fromJson(response['data']);
   }
 
+  // 导出CSV文件
+  static Future<String> _export(String endpoint) async {
+    final uri = Uri.parse('$_baseUrl$endpoint');
+    final response = await http.get(uri, headers: _headers).timeout(_timeout);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw ApiException(
+        message: '导出失败',
+        statusCode: response.statusCode,
+      );
+    }
+  }
+
+  static Future<String> exportCars() => _export('/cars/export');
+  static Future<String> exportRepairs() => _export('/repairs/export');
+  static Future<String> exportWashLogs() => _export('/wash/export');
+  static Future<String> exportCustomers() => _export('/customers/export');
+
   static Future<void> deleteWashLog(int id) async {
     await request(
       method: 'DELETE',

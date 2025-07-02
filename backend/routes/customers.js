@@ -2,6 +2,9 @@ const express = require('express');
 const Joi = require('joi');
 const { Customer, Car, Repair, WashLog } = require('../models');
 const router = express.Router();
+const auth = require('../middleware/auth');
+
+router.use(auth);
 
 // 验证模式
 const customerSchema = Joi.object({
@@ -473,4 +476,23 @@ router.get('/stats/overview', async (req, res) => {
   }
 });
 
-module.exports = router; 
+// GET /api/customers/export - 导出客户列表CSV
+router.get('/export', async (req, res) => {
+  try {
+    const customers = await Customer.findAll();
+    const fields = ['id', 'name', 'phone', 'address', 'email'];
+    const header = fields.join(',');
+    const rows = customers.map(c =>
+      fields.map(f => `"${(c[f] ?? '').toString().replace(/"/g, '""')}"`).join(',')
+    );
+    const csv = [header, ...rows].join('\n');
+    res.header('Content-Type', 'text/csv');
+    res.attachment('customers.csv');
+    res.send(csv);
+  } catch (error) {
+    console.error('导出客户失败:', error);
+    res.status(500).json({ success: false, message: '导出客户失败' });
+  }
+});
+
+module.exports = router;
