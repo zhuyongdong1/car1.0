@@ -3,11 +3,11 @@ require('dotenv').config();
 module.exports = {
   // 数据库配置
   database: {
-    host: 'localhost',
-    port: 3306,
-    username: 'root',
-    password: '',
-    database: 'car_maintenance_system',
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     dialect: 'mysql',
     timezone: '+08:00',
     logging: console.log,
@@ -41,9 +41,9 @@ module.exports = {
   
   // 百度OCR配置
   baiduOcr: {
-    appId: process.env.BAIDU_OCR_APP_ID || '119153115', // 百度OCR应用ID
-    apiKey: process.env.BAIDU_OCR_API_KEY || 'rijBYArTbty3m9rnD6ana15W',
-    secretKey: process.env.BAIDU_OCR_SECRET_KEY || 'pzUlxP7VJNmfDn40LWmXAuVNlWHRNiO2'
+    appId: process.env.BAIDU_OCR_APP_ID,
+    apiKey: process.env.BAIDU_OCR_API_KEY,
+    secretKey: process.env.BAIDU_OCR_SECRET_KEY
   },
   
   // 文件上传配置
@@ -54,11 +54,11 @@ module.exports = {
   },
 
   development: {
-    database: process.env.DB_NAME || 'car_maintenance_system',
-    username: process.env.DB_USER || 'carapp',
-    password: process.env.DB_PASSWORD || 'carapp123',
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 3306,
+    database: process.env.DB_NAME,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
     dialect: 'mysql',
     timezone: '+08:00',
     define: {
@@ -74,7 +74,7 @@ module.exports = {
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     host: process.env.DB_HOST,
-    port: process.env.DB_PORT || 3306,
+    port: process.env.DB_PORT,
     dialect: 'mysql',
     timezone: '+08:00',
     define: {
