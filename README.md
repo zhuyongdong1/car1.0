@@ -55,8 +55,8 @@ car2/
 mysql -u root -p
 
 # 创建数据库
-CREATE DATABASE car_maintenance;
-USE car_maintenance;
+CREATE DATABASE car_maintenance_system;
+USE car_maintenance_system;
 
 # 执行建表脚本
 source database/create_tables.sql
@@ -200,53 +200,109 @@ flutter build apk
 - **Sharp** - 图片处理和优化
 
 ### 数据库
-- **MySQL 5.7+** - 主数据库
-- 3个核心表：cars（车辆）、repairs（维修）、wash_logs（洗车）
+- **MySQL 8.0+** - 主数据库
+- 4个核心表：customers（客户）、cars（车辆）、repairs（维修）、wash_logs（洗车）
+- 数据库名称：`car_maintenance_system`
+
+## 🌐 在线演示
+
+- **Web应用**: http://localhost:8080 （本地运行）
+- **API接口**: http://localhost:3000/api （本地运行）
+
+## 📊 项目现状
+
+### ✅ 已完成功能
+- ✅ 完整的车辆信息管理
+- ✅ 维修记录的增删改查
+- ✅ 洗车记录管理
+- ✅ OCR文字识别集成（百度OCR）
+- ✅ 数据统计和分析
+- ✅ Web端和移动端响应式设计
+- ✅ API接口完整实现
+- ✅ 数据库设计和优化
+
+### 🔧 配置信息
+- **后端端口**: 3000
+- **前端端口**: 8080  
+- **数据库**: MySQL 8.0+
+- **OCR服务**: 百度智能云OCR（已配置测试账号）
 
 ## 📋 待办功能
 
 - [ ] 用户认证和权限管理
-- [ ] 数据导出功能（Excel/PDF）
-- [ ] 维修提醒通知
-- [ ] 照片上传功能
-- [ ] 二维码扫描识别
+- [ ] 数据导出功能（Excel/PDF）  
+- [ ] 维修提醒和保养提醒
+- [ ] 车辆照片管理功能
+- [ ] 二维码扫描功能
 - [ ] 数据备份和恢复
-- [ ] 多语言支持
+- [ ] 多语言支持（国际化）
+- [ ] 移动端推送通知
+- [ ] 报表生成和打印
 
 ## 🐛 已知问题
 
-1. 某些Flutter依赖版本可能需要调整
-2. ThemeConfig配置需要完善
-3. 部分数据模型属性名称需要统一
+1. Flutter Web端某些权限功能需要优化
+2. OCR识别准确率在光线不佳时可能下降
+3. 部分依赖包版本需要持续更新
+
+## 🚀 性能优化
+
+- 数据库连接池优化
+- API响应缓存机制
+- 图片压缩和处理
+- Flutter Web资源懒加载
 
 ## 🤝 贡献指南
 
-1. Fork 这个项目
-2. 创建你的特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交你的修改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 打开一个 Pull Request
+欢迎贡献代码！请遵循以下步骤：
+
+1. Fork 这个项目 
+2. 创建特性分支: `git checkout -b feature/AmazingFeature`
+3. 提交更改: `git commit -m 'Add some AmazingFeature'`
+4. 推送到分支: `git push origin feature/AmazingFeature`
+5. 创建 Pull Request
+
+### 代码规范
+- 后端遵循 ESLint 规范
+- 前端遵循 Flutter/Dart 官方规范
+- 提交信息使用中文，格式：`功能: 具体描述`
 
 ## 📄 许可证
 
-这个项目使用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情
+本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
 
 ## 📧 联系方式
 
-如有问题或建议，请通过以下方式联系：
+- **项目仓库**: [https://github.com/zhuyongdong1/car1.0.git](https://github.com/zhuyongdong1/car1.0.git)
+- **问题反馈**: [GitHub Issues](https://github.com/zhuyongdong1/car1.0/issues)
+- **功能建议**: 欢迎提交 Issue 或 Pull Request
 
-- 项目地址：[GitHub Repository](https://github.com/your-username/car-maintenance-app)
-- 问题反馈：[Issues](https://github.com/your-username/car-maintenance-app/issues)
+## 🔧 技术支持
+
+遇到问题？查看以下资源：
+
+1. **文档**: 查看各模块的 README 文件
+2. **API文档**: `backend/README.md`
+3. **数据库文档**: `database/README.md`
+4. **部署指南**: `DEPLOYMENT.md`
+5. **OCR配置**: `OCR_GUIDE.md`
 
 ## 🙏 致谢
 
-感谢所有开源项目的贡献者，特别是：
+感谢以下开源项目和服务：
 
-- Flutter团队
-- Express.js团队
-- Sequelize团队
-- MySQL团队
+- **Flutter** - 跨平台移动开发框架
+- **Node.js & Express** - 后端服务框架
+- **MySQL** - 可靠的数据库系统
+- **百度智能云** - OCR文字识别服务
+- **Sequelize** - Node.js ORM框架
 
 ---
 
-**祝您使用愉快！🚗✨** 
+<div align="center">
+
+**🚗 让车辆管理更智能，让维修记录更清晰 ✨**
+
+如果这个项目对您有帮助，请给我们一个 ⭐ Star ⭐
+
+</div> 
