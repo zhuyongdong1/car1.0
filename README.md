@@ -142,6 +142,27 @@ flutter build apk
 - `POST /api/ocr/invoice` - 发票信息识别
 - `GET /api/ocr/config` - 获取OCR配置
 
+### 客户管理
+
+- `GET /api/customers` - 获取客户列表
+- `POST /api/customers` - 添加客户
+- `GET /api/customers/:id` - 获取单个客户信息
+- `PUT /api/customers/:id` - 更新客户信息
+- `DELETE /api/customers/:id` - 删除客户
+
+### 认证接口
+
+- `POST /api/auth/login` - 用户登录
+- `POST /api/auth/register` - 用户注册
+- `POST /api/auth/refresh` - 刷新JWT令牌
+- `POST /api/auth/logout` - 用户登出
+
+### 数据导出
+
+- `GET /api/export/cars` - 导出车辆数据
+- `GET /api/export/repairs` - 导出维修记录
+- `GET /api/export/wash` - 导出洗车记录
+
 详细的API文档请参考 [`backend/README.md`](backend/README.md)
 
 ## 📱 功能特性
@@ -193,8 +214,12 @@ flutter build apk
 - **Express.js** - Web框架
 - **Sequelize** - ORM数据库操作
 - **MySQL** - 关系型数据库
+- **JWT** - 身份认证和授权
+- **Jest/SuperTest** - 测试框架
 - **Helmet** - 安全中间件
 - **CORS** - 跨域支持
+- **Express Rate Limit** - API限流保护
+- **Morgan** - 请求日志记录
 - **百度OCR SDK** - 文字识别服务
 - **Multer** - 文件上传处理
 - **Sharp** - 图片处理和优化
@@ -215,7 +240,14 @@ flutter build apk
 - ✅ 完整的车辆信息管理
 - ✅ 维修记录的增删改查
 - ✅ 洗车记录管理
+- ✅ 客户信息管理系统
 - ✅ OCR文字识别集成（百度OCR）
+- ✅ JWT身份认证中间件
+- ✅ API限流和安全防护
+- ✅ 后端API测试套件（Jest）
+- ✅ 前端Widget测试
+- ✅ 数据库自动备份脚本
+- ✅ 环境变量配置支持
 - ✅ 数据统计和分析
 - ✅ Web端和移动端响应式设计
 - ✅ API接口完整实现
@@ -229,14 +261,16 @@ flutter build apk
 
 ## 📋 待办功能
 
-- [ ] 用户认证和权限管理
+- [ ] 用户注册和登录界面
+- [ ] 角色权限管理（管理员/普通用户）
 - [ ] 数据导出功能（Excel/PDF）  
 - [ ] 维修提醒和保养提醒
 - [ ] 车辆照片管理功能
 - [ ] 二维码扫描功能
-- [ ] 数据备份和恢复
 - [ ] 多语言支持（国际化）
 - [ ] 移动端推送通知
+- [ ] 数据图表可视化优化
+- [ ] API接口文档自动生成
 - [ ] 报表生成和打印
 
 ## 🐛 已知问题

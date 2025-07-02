@@ -10,10 +10,16 @@
 - **Express** 4.x - Web框架
 - **Sequelize** 6.x - ORM
 - **MySQL** 8.x - 数据库
+- **JWT** - 身份认证和授权
+- **Jest/SuperTest** - 测试框架
 - **express-validator** - 数据验证
 - **CORS** - 跨域支持
 - **Helmet** - 安全防护
 - **Rate Limiting** - API限流
+- **Morgan** - 请求日志记录
+- **Multer** - 文件上传处理
+- **Sharp** - 图片处理
+- **百度OCR SDK** - 文字识别服务
 
 ## 快速开始
 
@@ -178,6 +184,171 @@ npm start
 
 #### 5. 删除洗车记录
 - **DELETE** `/api/wash/:id`
+
+### 客户管理 API (`/api/customers`)
+
+#### 1. 添加客户
+- **POST** `/api/customers`
+- **请求体:**
+```json
+{
+  "name": "张三",
+  "phone": "13800138000",
+  "email": "zhangsan@example.com",
+  "address": "北京市朝阳区xxx路xxx号",
+  "note": "VIP客户"
+}
+```
+
+#### 2. 获取客户列表
+- **GET** `/api/customers`
+- **查询参数:**
+  - `search`: 搜索关键词（姓名、手机号）
+  - `page`: 页码
+  - `limit`: 每页数量
+
+#### 3. 获取单个客户信息
+- **GET** `/api/customers/:id`
+
+#### 4. 更新客户信息
+- **PUT** `/api/customers/:id`
+
+#### 5. 删除客户
+- **DELETE** `/api/customers/:id`
+
+### OCR文字识别 API (`/api/ocr`)
+
+#### 1. 通用文字识别
+- **POST** `/api/ocr/recognize`
+- **请求体:** `multipart/form-data`
+  - `image`: 图片文件
+
+#### 2. 车牌号识别
+- **POST** `/api/ocr/license-plate`
+- **请求体:** `multipart/form-data`
+  - `image`: 图片文件
+
+#### 3. VIN码识别
+- **POST** `/api/ocr/vin`
+- **请求体:** `multipart/form-data`
+  - `image`: 图片文件
+
+#### 4. 发票识别
+- **POST** `/api/ocr/invoice`
+- **请求体:** `multipart/form-data`
+  - `image`: 图片文件
+
+### 认证授权 API (`/api/auth`)
+
+#### 1. 用户登录
+- **POST** `/api/auth/login`
+- **请求体:**
+```json
+{
+  "username": "admin",
+  "password": "password"
+}
+```
+
+#### 2. 用户注册
+- **POST** `/api/auth/register`
+- **请求体:**
+```json
+{
+  "username": "newuser",
+  "password": "password",
+  "email": "user@example.com"
+}
+```
+
+#### 3. 刷新令牌
+- **POST** `/api/auth/refresh`
+- **请求头:** `Authorization: Bearer <refresh_token>`
+
+#### 4. 用户登出
+- **POST** `/api/auth/logout`
+- **请求头:** `Authorization: Bearer <access_token>`
+
+### 数据导出 API (`/api/export`)
+
+#### 1. 导出车辆数据
+- **GET** `/api/export/cars?format=csv|excel`
+- **查询参数:**
+  - `format`: 导出格式（csv或excel）
+  - `search`: 搜索过滤
+
+#### 2. 导出维修记录
+- **GET** `/api/export/repairs?format=csv|excel`
+- **查询参数:**
+  - `format`: 导出格式
+  - `start_date`: 开始日期
+  - `end_date`: 结束日期
+
+#### 3. 导出洗车记录
+- **GET** `/api/export/wash?format=csv|excel`
+- **查询参数:**
+  - `format`: 导出格式
+  - `start_date`: 开始日期
+  - `end_date`: 结束日期
+
+## 安全特性
+
+### JWT认证
+- 使用JWT进行用户身份验证
+- Access Token有效期：15分钟
+- Refresh Token有效期：7天
+- 支持令牌刷新机制
+
+### API限流
+- 全局限流：100请求/15分钟
+- OCR限流：50请求/15分钟（更严格）
+- 基于IP地址限流
+
+### 安全中间件
+- **Helmet**: 设置安全HTTP头部
+- **CORS**: 配置跨域访问策略
+- **Morgan**: 记录访问日志
+
+### 数据验证
+- 所有输入数据进行严格验证
+- SQL注入防护（Sequelize ORM）
+- XSS攻击防护
+
+## 数据备份
+
+### 自动备份脚本
+位置：`database/backup.sh`
+
+```bash
+# 执行数据库备份
+./database/backup.sh car_maintenance_system root your_password
+
+# 备份文件保存在
+database/backups/car_maintenance_system_YYYYMMDD_HHMMSS.sql
+```
+
+### 定时备份设置
+可以使用crontab设置定时备份：
+```bash
+# 每天凌晨2点自动备份
+0 2 * * * /path/to/database/backup.sh car_maintenance_system root password
+```
+
+## 测试
+
+### 运行测试
+```bash
+# 运行所有测试
+npm test
+
+# 测试覆盖率
+npm run test:coverage
+```
+
+### 测试框架
+- **Jest**: 测试运行器
+- **SuperTest**: HTTP接口测试
+- 包含API接口的完整测试套件
 
 ## 数据验证
 
