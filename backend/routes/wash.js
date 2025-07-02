@@ -2,8 +2,10 @@ const express = require('express');
 const { body, param, query, validationResult } = require('express-validator');
 const { WashLog, Car } = require('../models');
 const { Op } = require('sequelize');
+const auth = require('../middleware/auth');
 
 const router = express.Router();
+router.use(auth);
 
 // 验证中间件
 const handleValidationErrors = (req, res, next) => {
@@ -466,4 +468,26 @@ router.delete('/:id', [
   }
 });
 
-module.exports = router; 
+// GET /api/wash/export - 导出洗车记录CSV
+router.get('/export', async (req, res) => {
+  try {
+    const logs = await WashLog.findAll({ include: [{ model: Car, as: 'car' }] });
+    const fields = ['id', 'car_id', 'wash_time', 'wash_type', 'price', 'location'];
+    const header = fields.join(',');
+    const rows = logs.map(l =>
+      fields.map(f => {
+        const val = f === 'car_id' ? l.car_id : l[f];
+        return `"${(val ?? '').toString().replace(/"/g, '""')}"`;
+      }).join(',')
+    );
+    const csv = [header, ...rows].join('\n');
+    res.header('Content-Type', 'text/csv');
+    res.attachment('wash_logs.csv');
+    res.send(csv);
+  } catch (error) {
+    console.error('导出洗车记录失败:', error);
+    res.status(500).json({ success: false, message: '导出洗车记录失败' });
+  }
+});
+
+module.exports = router;

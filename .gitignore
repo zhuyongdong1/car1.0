@@ -39,6 +39,9 @@ Thumbs.db
 # Database
 *.sql.backup
 *.db
+database/backups/*
+!database/backups/.gitkeep
+!database/backups/.gitkeep
 
 # Uploads
 uploads/*

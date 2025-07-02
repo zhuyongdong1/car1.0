@@ -2,8 +2,10 @@ const express = require('express');
 const { body, param, query, validationResult } = require('express-validator');
 const { Repair, Car } = require('../models');
 const { Op } = require('sequelize');
+const auth = require('../middleware/auth');
 
 const router = express.Router();
+router.use(auth);
 
 // 验证中间件
 const handleValidationErrors = (req, res, next) => {
@@ -369,4 +371,26 @@ router.delete('/:id', [
   }
 });
 
-module.exports = router; 
+// GET /api/repairs/export - 导出维修记录CSV
+router.get('/export', async (req, res) => {
+  try {
+    const repairs = await Repair.findAll({ include: [{ model: Car, as: 'car' }] });
+    const fields = ['id', 'car_id', 'repair_date', 'item', 'price', 'note'];
+    const header = fields.join(',');
+    const rows = repairs.map(r =>
+      fields.map(f => {
+        const val = f === 'car_id' ? r.car_id : r[f];
+        return `"${(val ?? '').toString().replace(/"/g, '""')}"`;
+      }).join(',')
+    );
+    const csv = [header, ...rows].join('\n');
+    res.header('Content-Type', 'text/csv');
+    res.attachment('repairs.csv');
+    res.send(csv);
+  } catch (error) {
+    console.error('导出维修记录失败:', error);
+    res.status(500).json({ success: false, message: '导出维修记录失败' });
+  }
+});
+
+module.exports = router;

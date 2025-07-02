@@ -2,8 +2,10 @@ const express = require('express');
 const { body, param, validationResult } = require('express-validator');
 const { Car, Repair, WashLog } = require('../models');
 const { Op } = require('sequelize');
+const auth = require('../middleware/auth');
 
 const router = express.Router();
+router.use(auth);
 
 // 验证中间件
 const handleValidationErrors = (req, res, next) => {
@@ -283,4 +285,23 @@ router.put('/:id', [
   }
 });
 
-module.exports = router; 
+// GET /api/cars/export - 导出车辆列表CSV
+router.get('/export', async (req, res) => {
+  try {
+    const cars = await Car.findAll();
+    const fields = ['id', 'plate_number', 'vin', 'brand', 'model', 'year', 'color'];
+    const header = fields.join(',');
+    const rows = cars.map(c =>
+      fields.map(f => `"${(c[f] ?? '').toString().replace(/"/g, '""')}"`).join(',')
+    );
+    const csv = [header, ...rows].join('\n');
+    res.header('Content-Type', 'text/csv');
+    res.attachment('cars.csv');
+    res.send(csv);
+  } catch (error) {
+    console.error('导出车辆失败:', error);
+    res.status(500).json({ success: false, message: '导出车辆失败' });
+  }
+});
+
+module.exports = router;
